@@ -6,8 +6,8 @@
 						<div class="row">
 							<div class="col-lg-4 col-md-6 col-sm-12 mb-30">
 								<div class="footer__four-widget mr-40">
-									<a class="logo" href="{{ url('/') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Oba Ticaret Logo"></a>
-									<p class="mt-20">OBA TİCARET | Yapı Malz. - Mobilya - PVC - Çelik Kapı. 1996'dan bu yana Kadirli/Osmaniye'de çelik kapı, PVC kapı sistemleri, alüminyum duşakabin, mobilya, ısı yalıtım ve izocam alanlarında kaliteli çözümler sunuyoruz. Müşteri memnuniyeti ve kalite odaklı hizmet anlayışımızla sektörde öncü konumdayız.</p>
+									<a class="logo" href="{{ url('/') }}"><img src="{{ $site->site_logo ? asset($site->site_logo) : asset('assets/img/logo.png') }}" alt="{{ $site->company_name }}"></a>
+									<p class="mt-20">{{ $site->company_name }} | {{ $site->company_tagline }}. {{ $site->company_description }}</p>
 								</div>
 							</div>
 							<div class="col-lg-2 col-md-3 col-sm-6 mb-30">
@@ -44,32 +44,42 @@
 							<div class="col-lg-3 col-md-6 col-sm-12 mb-30">
 								<div class="footer__four-widget address">
 									<h4>İletişim Bilgileri</h4>
-									<div class="footer__four-widget-address">
-										<div class="footer-address-item mb-15">
-											<i class="fal fa-map-marker-alt"></i>
-											<span>Şehit Halis Şişman Mah. Kamil Kara Bul. No:240 Kadirli/Osmaniye, Osmaniye 80750</span>
-										</div>
-										<div class="footer-address-item mb-15">
-											<div style="display: flex; flex-direction: column; gap: 8px;">
-												<a href="tel:05305693623" style="display: flex; align-items: center; gap: 8px;">
-													<i class="fal fa-phone" style="font-size: 14px;"></i>
-													<span>0530 569 36 23</span>
-												</a>
-												<a href="tel:05326415316" style="display: flex; align-items: center; gap: 8px;">
-													<i class="fal fa-phone" style="font-size: 14px;"></i>
-													<span>0532 641 53 16</span>
-												</a>
-											</div>
-										</div>
-										<div class="footer-address-item mb-15">
-											<i class="fal fa-envelope"></i>
-											<a href="mailto:info@obaticaret.com">info@obaticaret.com</a>
-										</div>
-										<div class="footer-address-item">
-											<i class="fal fa-clock"></i>
-											<span>Pazartesi - Cumartesi: 08:00 - 18:00</span>
+								<div class="footer__four-widget-address">
+									@if($site->contact_address)
+									<div class="footer-address-item mb-15">
+										<i class="fal fa-map-marker-alt"></i>
+										<span>{{ $site->contact_address }}</span>
+									</div>
+									@endif
+									<div class="footer-address-item mb-15">
+										<div style="display: flex; flex-direction: column; gap: 8px;">
+											@if($site->contact_phone)
+											<a href="tel:{{ preg_replace('/\s+/', '', $site->contact_phone) }}" style="display: flex; align-items: center; gap: 8px;">
+												<i class="fal fa-phone" style="font-size: 14px;"></i>
+												<span>{{ $site->contact_phone }}</span>
+											</a>
+											@endif
+											@if($site->contact_phone2)
+											<a href="tel:{{ preg_replace('/\s+/', '', $site->contact_phone2) }}" style="display: flex; align-items: center; gap: 8px;">
+												<i class="fal fa-phone" style="font-size: 14px;"></i>
+												<span>{{ $site->contact_phone2 }}</span>
+											</a>
+											@endif
 										</div>
 									</div>
+									@if($site->contact_email)
+									<div class="footer-address-item mb-15">
+										<i class="fal fa-envelope"></i>
+										<a href="mailto:{{ $site->contact_email }}">{{ $site->contact_email }}</a>
+									</div>
+									@endif
+									@if($site->working_hours)
+									<div class="footer-address-item">
+										<i class="fal fa-clock"></i>
+										<span>{{ $site->working_hours }}</span>
+									</div>
+									@endif
+								</div>
 								</div>
 							</div>
 						</div>
@@ -85,7 +95,7 @@
 			<div class="row al-center">
 				<div class="col-md-12">
 					<div class="copyright__area-content t-center">
-						<p>&copy; {{ date('Y') }} 2026 OBA TİCARET | ÇELİK KAPI - PVC - MOBİLYA - MUTFAK - İÇ ODA KAPILARI. Tüm hakları saklıdır.</p>
+						<p>&copy; {{ date('Y') }} {{ $site->company_name }}. Tüm hakları saklıdır.</p>
 					</div>
 				</div>
 			</div>
@@ -98,7 +108,7 @@
 	</div>
 	<!-- Scroll Btn End -->
 	<!-- WhatsApp Floating Button Start -->
-	<a href="https://wa.me/905305693623?text=Merhaba,%20teklif%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat">
+	<a href="https://wa.me/{{ $site->whatsapp_number ?: '905305693623' }}?text=Merhaba,%20teklif%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="whatsapp-float" id="whatsappFloat">
 		<div class="whatsapp-float-icon">
 			<i class="fab fa-whatsapp"></i>
 		</div>

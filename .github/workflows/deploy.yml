@@ -31,10 +31,36 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
       - name: Build assets
         run: |
           npm ci
           npm run build
+
+      - name: Remove unnecessary vendor files
+        run: |
+          find vendor -type d -name "tests" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type d -name "test" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type d -name "Tests" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type d -name "Test" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type d -name "docs" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type d -name "doc" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type d -name ".git" -exec rm -rf {} + 2>/dev/null || true
+          find vendor -type f -name "*.md" -delete 2>/dev/null || true
+          find vendor -type f -name "CHANGELOG*" -delete 2>/dev/null || true
+          find vendor -type f -name "UPGRADE*" -delete 2>/dev/null || true
+          find vendor -type f -name ".gitignore" -delete 2>/dev/null || true
+          find vendor -type f -name ".gitattributes" -delete 2>/dev/null || true
+          find vendor -type f -name "phpunit.xml*" -delete 2>/dev/null || true
+          find vendor -type f -name "phpstan*" -delete 2>/dev/null || true
+          find vendor -type f -name ".editorconfig" -delete 2>/dev/null || true
+          find vendor -type f -name ".php-cs-fixer*" -delete 2>/dev/null || true
+          echo "Vendor cleaned"
 
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -66,3 +92,15 @@ jobs:
             **/.phpunit*
             **/vendor/bin/**
             **/docs/**
+            **/public/theme/**
+            **/logolar/**
+            **/resources/css/**
+            **/resources/js/**
+            **/package.json
+            **/package-lock.json
+            **/vite.config.js
+            **/tailwind.config.js
+            **/postcss.config.js
+            **/.prettierrc
+            **/composer.json
+            **/composer.lock

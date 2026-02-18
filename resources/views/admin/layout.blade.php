@@ -1099,10 +1099,6 @@
                 <i class="bi bi-images"></i> Slider
             </a>
 
-            {{-- Sertifika Yönetimi --}}
-            <a href="{{ route('admin.certificates.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.certificates.*') ? 'active' : '' }}">
-                <i class="bi bi-award"></i> Sertifikalar
-            </a>
             
             {{-- İletişim Yönetimi --}}
             <a href="{{ route('admin.contacts.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.contacts.*') ? 'active' : '' }}">
@@ -1114,10 +1110,6 @@
                 <i class="bi bi-file-earmark-text"></i> Sayfalar
             </a>
 
-            {{-- SSS Yönetimi --}}
-            <a href="{{ route('admin.faqs.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.faqs.*') ? 'active' : '' }}">
-                <i class="bi bi-question-circle"></i> SSS
-            </a>
 
             {{-- Sistem --}}
             <a href="{{ route('admin.settings.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">

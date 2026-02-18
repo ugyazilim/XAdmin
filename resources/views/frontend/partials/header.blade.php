@@ -6,12 +6,11 @@
 	<!-- Meta Başlangıcı -->
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-	<meta name="description" content="OBA TİCARET | Yapı Malz. - Mobilya - PVC - Çelik Kapı. 1996'dan bu yana Kadirli/Osmaniye'de hizmet veriyoruz."/>
-	<meta name="keywords" content="Çelik Kapı, PVC Kapı, Alüminyum Duşakabin, Mobilya, Isı Yalıtım, İzocam, Oba Ticaret, Kadirli, Osmaniye, Yapı Malzemeleri"/>
-	<meta name="author" content="OBA TİCARET">
+	<meta name="description" content="{{ $site->seo_description ?: $site->company_name.' | '.$site->company_tagline }}"/>
+	<meta name="keywords" content="{{ $site->seo_keywords ?: '' }}"/>
+	<meta name="author" content="{{ $site->company_name }}">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Site Başlığı -->
-	<title>OBA TİCARET | Yapı Malz. - Mobilya - PVC - Çelik Kapı | Kadirli/Osmaniye</title>
+	<title>{{ $site->seo_title ?: $site->company_name.' | '.$site->company_tagline.' | '.$site->contact_city }}</title>
 	<!-- Favicons -->
 	<link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
 	<!-- Bootstrap CSS -->
@@ -135,48 +134,60 @@
 	<div class="header__area-menubar-right-sidebar-popup">
 		<div class="sidebar-close-btn"><i class="fal fa-times"></i></div>
 		<div class="header__area-menubar-right-sidebar-popup-logo">
-			<a href="{{ url('/') }}"> <img src="{{ asset('assets/img/logo.png') }}" alt="Oba Ticaret Logo" style="height: 50px; width: auto;"></a>
+			<a href="{{ url('/') }}"> <img src="{{ $site->site_logo ? asset($site->site_logo) : asset('assets/img/logo.png') }}" alt="{{ $site->company_name }}" style="height: 50px; width: auto;"></a>
 		</div>
-		<p>1996'dan bu yana Kadirli/Osmaniye'de çelik kapı, PVC kapı, alüminyum duşakabin, mobilya, ısı yalıtım ve izocam alanlarında kaliteli ürün ve hizmetler sunuyoruz.</p>
+		<p>{{ $site->company_description }}</p>
 		<div class="header__area-menubar-right-sidebar-popup-contact">
 			<h4 class="mb-30">İletişim</h4>
+			@if($site->contact_phone)
 			<div class="header__area-menubar-right-sidebar-popup-contact-item">
 				<div class="header__area-menubar-right-sidebar-popup-contact-item-content">
 					<span>Telefon:</span>
 					<h6 style="display: flex; flex-direction: column; gap: 8px; margin-top: 5px;">
-						<a href="tel:05305693623" style="display: flex; align-items: center; gap: 8px;">
+						<a href="tel:{{ preg_replace('/\s+/', '', $site->contact_phone) }}" style="display: flex; align-items: center; gap: 8px;">
 							<i class="flaticon-phone" style="font-size: 14px;"></i>
-							<span>0530 569 36 23</span>
+							<span>{{ $site->contact_phone }}</span>
 						</a>
-						<a href="tel:05326415316" style="display: flex; align-items: center; gap: 8px;">
+						@if($site->contact_phone2)
+						<a href="tel:{{ preg_replace('/\s+/', '', $site->contact_phone2) }}" style="display: flex; align-items: center; gap: 8px;">
 							<i class="flaticon-phone" style="font-size: 14px;"></i>
-							<span>0532 641 53 16</span>
+							<span>{{ $site->contact_phone2 }}</span>
 						</a>
+						@endif
 					</h6>
 				</div>
 			</div>
+			@endif
+			@if($site->contact_email)
 			<div class="header__area-menubar-right-sidebar-popup-contact-item">
 				<div class="header__area-menubar-right-sidebar-popup-contact-item-icon">
 					<i class="flaticon-email-3"></i>
 				</div>
 				<div class="header__area-menubar-right-sidebar-popup-contact-item-content">
 					<span>E-posta:</span>
-					<h6><a href="mailto:info@obaticaret.com">info@obaticaret.com</a></h6>
+					<h6><a href="mailto:{{ $site->contact_email }}">{{ $site->contact_email }}</a></h6>
 				</div>
 			</div>
+			@endif
+			@if($site->contact_address)
 			<div class="header__area-menubar-right-sidebar-popup-contact-item">
 				<div class="header__area-menubar-right-sidebar-popup-contact-item-icon">
 					<i class="flaticon-location-1"></i>
 				</div>
 				<div class="header__area-menubar-right-sidebar-popup-contact-item-content">
 					<span>Adres:</span>
-					<h6><a href="https://www.google.com/maps?q=Şehit+Halis+Şişman+Mah.+Kamil+Kara+Bul.+No:240+Kadirli/Osmaniye" target="_blank" rel="noopener noreferrer">Şehit Halis Şişman Mah. Kamil Kara Bul. No:240 Kadirli/Osmaniye, Osmaniye 80750</a></h6>
+					<h6><a href="https://www.google.com/maps?q={{ urlencode($site->contact_address) }}" target="_blank" rel="noopener noreferrer">{{ $site->contact_address }}</a></h6>
 				</div>
 			</div>
+			@endif
 		</div>
 		<div class="header__area-menubar-right-sidebar-popup-social">
 			<ul>
-				<li><a href="https://wa.me/905305693623" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a></li>
+				@if($site->whatsapp_number)<li><a href="https://wa.me/{{ $site->whatsapp_number }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a></li>@endif
+				@if($site->social_facebook)<li><a href="{{ $site->social_facebook }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a></li>@endif
+				@if($site->social_instagram)<li><a href="{{ $site->social_instagram }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a></li>@endif
+				@if($site->social_twitter)<li><a href="{{ $site->social_twitter }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-twitter"></i></a></li>@endif
+				@if($site->social_youtube)<li><a href="{{ $site->social_youtube }}" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a></li>@endif
 			</ul>							
 		</div>
 	</div>
@@ -185,7 +196,7 @@
 	<!-- Mobil Menü Başlangıç -->
 	<div class="menu__bar-popup">
 		<div class="menu__bar-popup-top">
-			<div class="logo"><a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Oba Ticaret Logo" style="height: 50px; width: auto;"></a></div>			
+			<div class="logo"><a href="{{ url('/') }}"><img src="{{ $site->site_logo ? asset($site->site_logo) : asset('assets/img/logo.png') }}" alt="{{ $site->company_name }}" style="height: 50px; width: auto;"></a></div>			
 			<div class="close"><i class="fal fa-times"></i></div>
 		</div>
 		<div class="vertical-menu">
@@ -202,7 +213,7 @@
 			<div class="header__area-menubar">
 				<div class="header__area-menubar-left one">
 					<div class="header__area-menubar-left-logo">
-                        <a href="{{ url('/') }}"><img src="{{ asset('assets/img/logo.png') }}" alt="Oba Ticaret Logo" style="height: 50px; width: auto;"></a>
+                        <a href="{{ url('/') }}"><img src="{{ $site->site_logo ? asset($site->site_logo) : asset('assets/img/logo.png') }}" alt="{{ $site->company_name }}" style="height: 50px; width: auto;"></a>
                     </div>
 				</div>
 				<div class="header__area-menubar-center">

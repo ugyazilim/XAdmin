@@ -28,7 +28,9 @@ class SettingSeeder extends Seeder
             ['key' => 'contact_district', 'value' => 'Kadirli', 'type' => 'string', 'group' => 'contact', 'description' => 'İlçe'],
             ['key' => 'contact_province', 'value' => 'Osmaniye', 'type' => 'string', 'group' => 'contact', 'description' => 'İl'],
             ['key' => 'contact_postal_code', 'value' => '80750', 'type' => 'string', 'group' => 'contact', 'description' => 'Posta kodu'],
+            ['key' => 'contact_phone2', 'value' => '0530 569 36 23', 'type' => 'string', 'group' => 'contact', 'description' => 'İkinci telefon'],
             ['key' => 'whatsapp_number', 'value' => '905326415316', 'type' => 'string', 'group' => 'contact', 'description' => 'WhatsApp numarası'],
+            ['key' => 'working_hours', 'value' => 'Pazartesi - Cumartesi: 08:00 - 18:00', 'type' => 'string', 'group' => 'contact', 'description' => 'Çalışma saatleri'],
 
             // Sosyal Medya
             ['key' => 'social_instagram', 'value' => 'https://instagram.com/obaticaret', 'type' => 'string', 'group' => 'social', 'description' => 'Instagram'],
@@ -42,13 +44,6 @@ class SettingSeeder extends Seeder
             ['key' => 'seo_keywords', 'value' => 'Çelik Kapı, PVC Kapı, Alüminyum Duşakabin, Mobilya, Isı Yalıtım, İzocam, Oba Ticaret, Kadirli, Osmaniye, Yapı Malzemeleri', 'type' => 'string', 'group' => 'seo', 'description' => 'SEO anahtar kelimeler'],
             ['key' => 'google_analytics', 'value' => '', 'type' => 'string', 'group' => 'seo', 'description' => 'Google Analytics ID'],
 
-            // Frontend Alias Ayarları (Uyumluluk için)
-            ['key' => 'address', 'value' => 'Şehit Halis Şişman Mah. Kamil Kara Bul. No:240 Kadirli/Osmaniye, Osmaniye 80750', 'type' => 'string', 'group' => 'contact', 'description' => 'Adres (alias)'],
-            ['key' => 'phone', 'value' => '0532 641 53 16', 'type' => 'string', 'group' => 'contact', 'description' => 'Telefon (alias)'],
-            ['key' => 'email', 'value' => 'info@obaticaret.com', 'type' => 'string', 'group' => 'contact', 'description' => 'E-posta (alias)'],
-            ['key' => 'facebook_url', 'value' => 'https://facebook.com/obaticaret', 'type' => 'string', 'group' => 'social', 'description' => 'Facebook URL (alias)'],
-            ['key' => 'instagram_url', 'value' => 'https://instagram.com/obaticaret', 'type' => 'string', 'group' => 'social', 'description' => 'Instagram URL (alias)'],
-            ['key' => 'twitter_url', 'value' => '', 'type' => 'string', 'group' => 'social', 'description' => 'Twitter URL (alias)'],
             ['key' => 'google_maps_embed', 'value' => '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.045988425255!2d36.0824718!3d37.3650887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152f2032184e30f7%3A0x6f4f2a95417d4438!2zT2JhIEh1cmRhY8SxbMSxaw!5e0!3m2!1str!2str!4v1769852147129!5m2!1str!2str" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Oba Ticaret - Kadirli, Osmaniye" aria-label="Oba Ticaret - Kadirli, Osmaniye"></iframe>', 'type' => 'string', 'group' => 'contact', 'description' => 'Google Maps Embed kodu'],
         ];
 

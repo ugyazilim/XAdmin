@@ -9,7 +9,6 @@ use App\Models\News;
 use App\Models\Project;
 use App\Models\Reference;
 use App\Models\Service;
-use App\Models\Setting;
 use App\Models\Slider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -91,9 +90,7 @@ class HomeController extends Controller
 
     public function contact(): View
     {
-        $googleMapsEmbed = Setting::where('key', 'google_maps_embed')->first()?->value;
-
-        return view('frontend.pages.contact', compact('googleMapsEmbed'));
+        return view('frontend.pages.contact');
     }
 
     public function contactStore(Request $request): RedirectResponse
@@ -291,96 +288,9 @@ class HomeController extends Controller
 
     public function catalog(): View
     {
-        // Placeholder ürünler - İleride veritabanından gelecek
-        // Unsplash'tan gerçekçi inşaat/yapı görselleri kullanılıyor
-        $products = [
-            [
-                'id' => 1,
-                'name' => 'Yüksek Kaliteli Çelik Profil',
-                'image' => 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=1200&h=800&fit=crop',
-                'description' => 'Endüstriyel ve yapı sektöründe kullanılan yüksek kaliteli çelik profillerimiz, uluslararası standartlarda üretilmektedir.',
-                'features' => [
-                    'ISO 9001 Kalite Sertifikalı',
-                    'Paslanmaz Çelik Malzeme',
-                    'Çeşitli Ölçülerde Mevcut',
-                    'Hızlı Teslimat',
-                    'Uygun Fiyat Garantisi',
-                ],
-            ],
-            [
-                'id' => 2,
-                'name' => 'Premium Beton Karışımı',
-                'image' => 'https://images.unsplash.com/photo-1504307651254-35680f096041?w=1200&h=800&fit=crop',
-                'description' => 'Yüksek dayanıklılık ve performans sunan premium beton karışımlarımız, en zorlu projelerde güvenle kullanılabilir.',
-                'features' => [
-                    'Yüksek Dayanıklılık',
-                    'Hızlı Kuruma Özelliği',
-                    'Çevre Dostu Formül',
-                    'Toplu Alım İndirimi',
-                    'Teknik Destek Hizmeti',
-                ],
-            ],
-            [
-                'id' => 3,
-                'name' => 'Endüstriyel Yalıtım Malzemesi',
-                'image' => 'https://images.unsplash.com/photo-1504307651254-35680f096041?w=1200&h=800&fit=crop',
-                'description' => 'A+ sınıfı yalıtım özelliği ile enerji tasarrufu sağlayan, yangına dayanıklı yalıtım çözümlerimiz.',
-                'features' => [
-                    'A+ Sınıfı Yalıtım',
-                    'Yangına Dayanıklı',
-                    'Uzun Ömürlü',
-                    'Kolay Montaj',
-                    'Enerji Tasarrufu Sağlar',
-                ],
-            ],
-            [
-                'id' => 4,
-                'name' => 'Modern Alüminyum Cephe Sistemi',
-                'image' => 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&h=800&fit=crop',
-                'description' => 'Modern mimari projeler için tasarlanmış, hava koşullarına dayanıklı alüminyum cephe sistemlerimiz.',
-                'features' => [
-                    'Modern Tasarım',
-                    'Hava Koşullarına Dayanıklı',
-                    'Bakım Gerektirmez',
-                    'Özel Ölçü İmkanı',
-                    'Profesyonel Montaj Hizmeti',
-                ],
-            ],
-            [
-                'id' => 5,
-                'name' => 'Yüksek Performanslı Boya',
-                'image' => 'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=1200&h=800&fit=crop',
-                'description' => 'UV ışınlarına ve suya dayanıklı, uzun ömürlü ve çevre dostu premium boya çözümlerimiz.',
-                'features' => [
-                    'UV Işınlarına Dayanıklı',
-                    'Su Geçirmez Özellik',
-                    'Geniş Renk Paleti',
-                    'Çevre Dostu İçerik',
-                    'Uzun Süreli Garanti',
-                ],
-            ],
-            [
-                'id' => 6,
-                'name' => 'Premium Seramik Kaplama',
-                'image' => 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop',
-                'description' => 'İtalyan kalitesinde, kaymaz yüzey özelliği ile güvenli ve estetik seramik kaplama çözümlerimiz.',
-                'features' => [
-                    'İtalyan Kalitesi',
-                    'Kaymaz Yüzey',
-                    'Kolay Temizlenir',
-                    'Çeşitli Desenler',
-                    'Uzun Ömürlü',
-                ],
-            ],
-        ];
+        $services = Service::with(['category', 'images'])->active()->ordered()->get();
 
-        $companyName = Setting::get('site_name', 'OBA TİCARET | Yapı Malz. - Mobilya - PVC - Çelik Kapı');
-        $companyAddress = Setting::get('company_address', Setting::get('address', 'Şehit Halis Şişman Mah. Kamil Kara Bul. No:240 Kadirli/Osmaniye, Osmaniye 80750'));
-        $companyPhone = Setting::get('company_phone', Setting::get('contact_phone', '0532 641 53 16'));
-        $companyEmail = Setting::get('contact_email', 'info@obaticaret.com');
-        $companyDescription = Setting::get('company_description', Setting::get('description', '1996\'dan bu yana Kadirli/Osmaniye\'de çelik kapı, PVC kapı, alüminyum duşakabin, mobilya, ısı yalıtım ve izocam alanlarında kaliteli ürün ve hizmetler sunuyoruz.'));
-
-        return view('frontend.pages.catalog', compact('products', 'companyName', 'companyAddress', 'companyPhone', 'companyEmail', 'companyDescription'));
+        return view('frontend.pages.catalog', compact('services'));
     }
 
     public function news(): View

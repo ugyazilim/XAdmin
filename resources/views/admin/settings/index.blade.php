@@ -76,6 +76,48 @@
         </div>
     </div>
 
+    <!-- Medya Ayarları -->
+    <div class="col-lg-12 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-image me-2"></i>Medya / Görsel Ayarları</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('admin.settings.update-group', 'media') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Site Logosu</label>
+                            @php $currentLogo = $settings['media']?->firstWhere('key', 'site_logo')?->value; @endphp
+                            @if($currentLogo)
+                                <div class="mb-2">
+                                    <img src="{{ asset($currentLogo) }}" alt="Logo" style="max-height: 60px;">
+                                </div>
+                            @endif
+                            <input type="file" name="site_logo" class="form-control" accept="image/*">
+                            <div class="form-text">PNG, SVG veya JPG. Header ve footer'da kullanılır.</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Hakkımızda Videosu</label>
+                            @php $currentVideo = $settings['media']?->firstWhere('key', 'about_video')?->value; @endphp
+                            @if($currentVideo)
+                                <div class="mb-2">
+                                    <span class="badge bg-success"><i class="bi bi-camera-video me-1"></i>Video yüklü</span>
+                                    <small class="text-muted ms-2">{{ $currentVideo }}</small>
+                                </div>
+                            @endif
+                            <input type="file" name="about_video" class="form-control" accept="video/mp4,video/webm,video/ogg">
+                            <div class="form-text">Ana sayfa hakkımızda bölümündeki video (MP4, max 30MB)</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg me-2"></i>Kaydet
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- İletişim Bilgileri -->
     <div class="col-lg-12 mb-4">
         <div class="card">
@@ -93,10 +135,22 @@
                             <div class="form-text">Örn: 0532 641 53 16</div>
                         </div>
                         <div class="col-md-6 mb-3">
+                            <label class="form-label">Telefon 2</label>
+                            <input type="text" name="settings[contact_phone2]" class="form-control" 
+                                   value="{{ $settings['contact']?->firstWhere('key', 'contact_phone2')?->value ?? '' }}">
+                            <div class="form-text">İkinci telefon numarası (opsiyonel)</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">WhatsApp Numarası</label>
                             <input type="text" name="settings[whatsapp_number]" class="form-control" 
                                    value="{{ $settings['contact']?->firstWhere('key', 'whatsapp_number')?->value ?? '' }}">
                             <div class="form-text">Ülke kodu ile (905326415316)</div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Çalışma Saatleri</label>
+                            <input type="text" name="settings[working_hours]" class="form-control" 
+                                   value="{{ $settings['contact']?->firstWhere('key', 'working_hours')?->value ?? '' }}">
+                            <div class="form-text">Örn: Pazartesi - Cumartesi: 08:00 - 18:00</div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">E-posta <span class="text-danger">*</span></label>

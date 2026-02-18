@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\ProjectController;
@@ -113,14 +111,6 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::post('sliders/update-order', [SliderController::class, 'updateOrder'])->name('sliders.update-order');
     Route::post('sliders/bulk-delete', [SliderController::class, 'bulkDelete'])->name('sliders.bulk-delete');
 
-    // Sertifika Yönetimi
-    Route::get('certificates', [CertificateController::class, 'index'])->name('certificates.index');
-    Route::post('certificates', [CertificateController::class, 'store'])->name('certificates.store');
-    Route::put('certificates/{certificate}', [CertificateController::class, 'update'])->name('certificates.update');
-    Route::delete('certificates/{certificate}', [CertificateController::class, 'destroy'])->name('certificates.destroy');
-    Route::post('certificates/bulk-delete', [CertificateController::class, 'bulkDelete'])->name('certificates.bulk-delete');
-    Route::post('certificates/update-order', [CertificateController::class, 'updateOrder'])->name('certificates.update-order');
-    Route::post('certificates/{certificate}/toggle-status', [CertificateController::class, 'toggleStatus'])->name('certificates.toggle-status');
 
     // İletişim Yönetimi
     Route::resource('contacts', ContactController::class)->only(['index', 'show', 'update', 'destroy']);
@@ -130,9 +120,6 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
     Route::post('pages/{page}/toggle-publish', [AdminPageController::class, 'togglePublish'])->name('pages.toggle-publish');
     Route::post('pages/bulk-delete', [AdminPageController::class, 'bulkDelete'])->name('pages.bulk-delete');
 
-    // SSS Yönetimi
-    Route::resource('faqs', FaqController::class)->except(['show']);
-    Route::post('faqs/update-order', [FaqController::class, 'updateOrder'])->name('faqs.update-order');
 
     // Kullanıcı Yönetimi (Admin/Staff)
     Route::resource('users', UserController::class);

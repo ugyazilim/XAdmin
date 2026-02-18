@@ -78,8 +78,8 @@
                 <!-- Sol Taraf - Yazı İçeriği (Web'de sol, Mobilde üst) -->
                 <div class="col-lg-6 col-md-12 mb-30 order-lg-1 order-1">
                     <div class="about__two-left">
-                        <h2 class="title_split_anim">Oba Ticaret</h2>
-                        <p class="wow fadeInUp" data-wow-delay=".4s" style="line-height: 1.8; margin-bottom: 30px;">OBA TİCARET olarak 1996 yılından itibaren Kadirli/Osmaniye bölgesinde faaliyet göstermekteyiz. Çelik Kapı, PVC Kapı ve Pencere Sistemleri, Mobilya, Mutfak Tasarımları, İç Oda Kapıları, Duşakabin, Alüminyum Vitrin Sistemleri ve İnşaat alanlarında müşterilerimize en kaliteli ürün ve hizmetleri sunmaktayız. Uzman ekibimiz ve geniş ürün yelpazemiz ile ev ve iş yerlerinizi güvenli, konforlu ve estetik bir şekilde donatıyoruz.</p>
+                        <h2 class="title_split_anim">{{ $site->company_name }}</h2>
+                        <p class="wow fadeInUp" data-wow-delay=".4s" style="line-height: 1.8; margin-bottom: 30px;">{{ $site->company_description }}</p>
                         <div class="item_bounce mt-35">
                             <a class="build_button" href="{{ route('services') }}">Tüm Hizmetler<i class="flaticon-right-up"></i></a>                        
                         </div>
@@ -101,9 +101,8 @@
                                 x5-playsinline="true"
                                 style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; border-radius: 16px; object-fit: cover; pointer-events: none; user-select: none;"
                                 oncontextmenu="return false;">
-                                <source src="{{ asset('assets/videos/home_video.mp4') }}" type="video/quicktime">
-                                <source src="{{ asset('assets/videos/home_video.mp4') }}" type="video/mp4">
-                                <source src="{{ asset('assets/videos/home_video.mp4') }}" type="video/x-m4v">
+                                @php $aboutVideoSrc = $site->about_video ? asset($site->about_video) : asset('assets/videos/home_video.mp4'); @endphp
+                                <source src="{{ $aboutVideoSrc }}" type="video/mp4">
                                 Tarayıcınız video oynatmayı desteklemiyor.
                             </video>
                         </div>
@@ -220,7 +219,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="map-area">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.045988425255!2d36.0824718!3d37.3650887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152f2032184e30f7%3A0x6f4f2a95417d4438!2zT2JhIEh1cmRhY8SxbMSxaw!5e0!3m2!1str!2str!4v1769852147129!5m2!1str!2str" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Oba Ticaret - Kadirli, Osmaniye" aria-label="Oba Ticaret - Kadirli, Osmaniye"></iframe>
+                        @if($site->google_maps_embed)
+                            {!! $site->google_maps_embed !!}
+                        @else
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3171.045988425255!2d36.0824718!3d37.3650887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152f2032184e30f7%3A0x6f4f2a95417d4438!2zT2JhIEh1cmRhY8SxbMSxaw!5e0!3m2!1str!2str!4v1769852147129!5m2!1str!2str" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="{{ $site->company_name }}" aria-label="{{ $site->company_name }}"></iframe>
+                        @endif
                     </div>
                 </div>
             </div>

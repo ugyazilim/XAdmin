@@ -37,7 +37,7 @@
                         @endif
                         <!-- Teklif Al Butonu -->
                         <div class="mt-30 mb-4 mb-lg-0">
-                            <a href="https://wa.me/905305693623?text=Merhaba,%20{{ urlencode($service->title) }}%20hakkında%20teklif%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="build_button teklif-al-btn">
+                            <a href="https://wa.me/{{ $site->whatsapp_number ?: '905305693623' }}?text=Merhaba,%20{{ urlencode($service->title) }}%20hakkında%20teklif%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="build_button teklif-al-btn">
                                 <i class="fab fa-whatsapp me-2"></i>Teklif Al<i class="flaticon-right-up ms-2"></i>
                             </a>
                         </div>

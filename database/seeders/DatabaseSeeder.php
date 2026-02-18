@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             CategorySeeder::class, // Proje kategorileri için
             PageSeeder::class,
-            FaqSeeder::class,
             SliderSeeder::class,
             NewsSeeder::class,
             ProjectSeeder::class,
