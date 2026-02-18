@@ -1,0 +1,194 @@
+@extends('admin.layout')
+
+@section('title', 'Yeni Hizmet Oluştur')
+
+@section('content')
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">Yeni Hizmet Oluştur</h2>
+        <p class="text-muted mb-0">Yeni bir hizmet ekleyin</p>
+    </div>
+    <a href="{{ route('admin.services.index') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Hizmetlere Dön
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form action="{{ route('admin.services.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Başlık <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" 
+                               id="title" name="title" value="{{ old('title') }}" required>
+                        @error('title')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_id" class="form-label">Kategori</label>
+                        <select class="form-select @error('category_id') is-invalid @enderror" id="category_id" name="category_id">
+                            <option value="">Kategori Seçin (Opsiyonel)</option>
+                            @foreach($categories as $category)
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="short_description" class="form-label">Kısa Açıklama</label>
+                        <textarea class="form-control @error('short_description') is-invalid @enderror" 
+                                  id="short_description" name="short_description" rows="3">{{ old('short_description') }}</textarea>
+                        @error('short_description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="content" class="form-label">İçerik</label>
+                        <textarea class="form-control @error('content') is-invalid @enderror" 
+                                  id="content" name="content" rows="10">{{ old('content') }}</textarea>
+                        @error('content')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="icon" class="form-label">İkon Sınıfı</label>
+                            <input type="text" class="form-control @error('icon') is-invalid @enderror" 
+                                   id="icon" name="icon" value="{{ old('icon') }}" placeholder="Örn: flaticon-cyber-security">
+                            <small class="form-text text-muted">Flaticon sınıf adı</small>
+                            @error('icon')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="sort_order" class="form-label">Sıralama</label>
+                            <input type="number" class="form-control @error('sort_order') is-invalid @enderror" 
+                                   id="sort_order" name="sort_order" value="{{ old('sort_order', 0) }}" min="0">
+                            @error('sort_order')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" {{ old('is_active', true) ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_active">Aktif</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="meta_title" class="form-label">SEO Başlık</label>
+                        <input type="text" class="form-control @error('meta_title') is-invalid @enderror" 
+                               id="meta_title" name="meta_title" value="{{ old('meta_title') }}">
+                        @error('meta_title')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="meta_description" class="form-label">SEO Açıklama</label>
+                        <textarea class="form-control @error('meta_description') is-invalid @enderror" 
+                                  id="meta_description" name="meta_description" rows="3">{{ old('meta_description') }}</textarea>
+                        @error('meta_description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Öne Çıkan Görsel</h6>
+                            <div class="mb-3">
+                                <input type="file" class="form-control @error('featured_image') is-invalid @enderror" 
+                                       id="featured_image" name="featured_image" accept="image/*" onchange="previewImage(this, 'featuredPreview')">
+                                @error('featured_image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div id="featuredPreview" class="text-center" style="display: none;">
+                                <img id="featuredPreviewImg" src="" alt="Önizleme" class="img-fluid rounded" style="max-height: 200px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h6 class="fw-semibold mb-3">Hizmet Görselleri</h6>
+                            <p class="small text-muted mb-3">Birden fazla görsel ekleyebilirsiniz. Slider olarak gösterilecektir.</p>
+                            <div class="mb-3">
+                                <input type="file" class="form-control" 
+                                       id="images" name="images[]" accept="image/*" multiple onchange="previewMultipleImages(this)">
+                                <small class="form-text text-muted">Çoklu seçim için Ctrl/Cmd tuşuna basılı tutun.</small>
+                            </div>
+                            <div id="imagesPreview" class="row g-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{{ route('admin.services.index') }}" class="btn btn-outline-secondary">İptal</a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle me-2"></i>Hizmet Oluştur
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId + 'Img');
+        const previewDiv = document.getElementById(previewId);
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewDiv.style.display = 'block';
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            previewDiv.style.display = 'none';
+        }
+    }
+
+    function previewMultipleImages(input) {
+        const previewDiv = document.getElementById('imagesPreview');
+        previewDiv.innerHTML = '';
+        
+        if (input.files && input.files.length > 0) {
+            Array.from(input.files).forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const col = document.createElement('div');
+                    col.className = 'col-6 col-md-4';
+                    col.innerHTML = `
+                        <div class="position-relative">
+                            <img src="${e.target.result}" alt="Önizleme ${index + 1}" class="img-fluid rounded" style="max-height: 100px; width: 100%; object-fit: cover;">
+                            <input type="text" name="image_alt_texts[]" class="form-control form-control-sm mt-1" placeholder="Alt metin">
+                        </div>
+                    `;
+                    previewDiv.appendChild(col);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+</script>
+@endpush

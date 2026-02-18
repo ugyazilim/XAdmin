@@ -1,0 +1,19 @@
+{
+  "name": "Enjoy Burger QR Menü",
+  "short_name": "Enjoy Burger",
+  "description": "Enjoy Burger QR Menü Sistemi",
+  "start_url": "/qr",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#AE0900",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/logo/enjoy-burger-logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+
